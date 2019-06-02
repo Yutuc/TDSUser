@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- changes the color of the bottom navigation menu icons when selected -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:color="@android:color/black" />
+    <item android:color="@android:color/white"  />
+</selector>

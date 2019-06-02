@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/workout_page"
+          android:title=""
+          android:icon="@drawable/ic_fitness_black" />
+
+    <item android:id="@+id/check_ins_page"
+          android:title=""
+          android:icon="@drawable/ic_check_ins_black" />
+
+    <!--<item android:id="@+id/shop_page"
+          android:title=""
+          android:icon="@drawable/ic_shop_black" />
+
+    <item android:id="@+id/info_page"
+          android:title=""
+          android:icon="@drawable/ic_info_black" />-->
+
+</menu>
