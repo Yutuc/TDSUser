@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.check_in_vertical_recyclerview.view.*
 
 class VerticalRecyclerViewCheckIn(val context: Context, val inflater: LayoutInflater, val checkInPageObject: CheckInPageObject): Item<ViewHolder>(){
 
+    var userName = ""
+
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val adapter = GroupAdapter<ViewHolder>()
         viewHolder.itemView.date_textview_check_in.text = checkInPageObject.date
@@ -37,6 +39,7 @@ class VerticalRecyclerViewCheckIn(val context: Context, val inflater: LayoutInfl
             val dateClicked = checkInPageObject.date
 
             val currentUser = FirebaseAuth.getInstance().uid
+            getUserName(currentUser!!)
             val ref = FirebaseDatabase.getInstance().getReference("/users/$currentUser").child("scheduledCheckIn")
             ref.addListenerForSingleValueEvent(object: ValueEventListener{
                 override fun onDataChange(p0: DataSnapshot) {
@@ -61,7 +64,7 @@ class VerticalRecyclerViewCheckIn(val context: Context, val inflater: LayoutInfl
         val currentUser = FirebaseAuth.getInstance().uid
 
         val dialogBuilder = AlertDialog.Builder(context)
-        var dialogView = inflater.inflate(R.layout.check_in_confirmation_alert_dialog, null)
+        val dialogView = inflater.inflate(R.layout.check_in_confirmation_alert_dialog, null)
 
         dialogBuilder.setView(dialogView)
         dialogBuilder.setTitle("Confirm Check-In?")
@@ -83,7 +86,7 @@ class VerticalRecyclerViewCheckIn(val context: Context, val inflater: LayoutInfl
                         userCheckInsRef.setValue(ScheduledTimeObject(itemClicked.availableTimeObject.position, itemClicked.availableTimeObject.key, checkInPageObject.date, itemClicked.availableTimeObject.time, currentUser!!))
 
                         val adminCheckInsRef = FirebaseDatabase.getInstance().getReference("admin-check-ins/$currentUser")
-                        adminCheckInsRef.setValue(AdminScheduledTimeObject(getUserName(currentUser!!), checkInPageObject.date, itemClicked.availableTimeObject.time))
+                        adminCheckInsRef.setValue(AdminScheduledTimeObject(userName, checkInPageObject.date, itemClicked.availableTimeObject.time))
 
                         Toast.makeText(context, "Scheduled for $dateClicked at $timeClicked", Toast.LENGTH_SHORT).show()
                     }
@@ -97,14 +100,14 @@ class VerticalRecyclerViewCheckIn(val context: Context, val inflater: LayoutInfl
         }
     }//showConfirmDialog function
 
-    private fun getUserName(currentUser: String) : String{
-        val ref = FirebaseDatabase.getInstance().getReference("users/$currentUser")
-        var userName = ""
+    private fun getUserName(currentUser: String){
+        val ref = FirebaseDatabase.getInstance().getReference("/users").child("$currentUser")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
                 val userObject = p0.getValue(UserObject::class.java)
                 if(userObject != null){
                     userName = "${userObject.firstName} ${userObject.lastName}"
+                    Log.d("TEST", userName)
                 }
             }
 
@@ -112,14 +115,13 @@ class VerticalRecyclerViewCheckIn(val context: Context, val inflater: LayoutInfl
 
             }
         })
-        return userName
     }//getUserName method
 
     private fun showRescheduleDialog(previousSchedObject: ScheduledTimeObject, itemClicked: AvailableTimesRow, timeClicked: String, dateClicked: String){
         val currentUser = FirebaseAuth.getInstance().uid
 
         val dialogBuilder = AlertDialog.Builder(context)
-        var dialogView = inflater.inflate(R.layout.check_in_reschedule_alert_dialog, null)
+        val dialogView = inflater.inflate(R.layout.check_in_reschedule_alert_dialog, null)
 
         dialogBuilder.setView(dialogView)
         dialogBuilder.setTitle("Reschedule?")
@@ -142,7 +144,7 @@ class VerticalRecyclerViewCheckIn(val context: Context, val inflater: LayoutInfl
                         val previousCheckInsRef = FirebaseDatabase.getInstance().getReference("/check-in-page/${previousSchedObject.date}/${previousSchedObject.key}")
                         val adminCheckInsRef = FirebaseDatabase.getInstance().getReference("/admin-check-ins/$currentUser")
 
-                        adminCheckInsRef.setValue(AdminScheduledTimeObject(getUserName(currentUser!!), checkInPageObject.date, itemClicked.availableTimeObject.time))
+                        adminCheckInsRef.setValue(AdminScheduledTimeObject(userName, checkInPageObject.date, itemClicked.availableTimeObject.time))
                         userCheckInsRef.setValue(ScheduledTimeObject(itemClicked.availableTimeObject.position, itemClicked.availableTimeObject.key, checkInPageObject.date, itemClicked.availableTimeObject.time, currentUser!!))
                         previousCheckInsRef.setValue(AvailableTimeObject(previousSchedObject.position, previousSchedObject.key, previousSchedObject.time, ""))
 

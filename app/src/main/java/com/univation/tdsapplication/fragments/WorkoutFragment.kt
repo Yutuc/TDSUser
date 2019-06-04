@@ -1,5 +1,6 @@
 package com.univation.tdsapplication.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -27,17 +28,17 @@ class WorkoutFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_workout, container, false)
-        pullUserWorkouts()
+        pullUserWorkouts(context!!, inflater)
         view.horizontal_recyclerview_workout.adapter = adapter
         // Inflate the layout for this fragment
         return view
     }
 
-    private fun pullUserWorkouts(){
+    private fun pullUserWorkouts(context: Context, inflater: LayoutInflater){
         val ref = FirebaseDatabase.getInstance().getReference("workout-page/$currentUser")
         ref.addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                pullDate(p0.key!!)
+                pullDate(context, inflater, p0.key!!)
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
@@ -58,13 +59,13 @@ class WorkoutFragment : Fragment() {
         })
     }//pullUserRef function
 
-    private fun pullDate(key: String){
+    private fun pullDate(context: Context, inflater: LayoutInflater, key: String){
         val ref = FirebaseDatabase.getInstance().getReference("workout-page/$currentUser/$key").child("date")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
                 val date = p0.getValue(String::class.java)
                 if(date != null){
-                    pullWorkoutArrayList(key, date)
+                    pullWorkoutArrayList(context, inflater, key, date)
                 }
             }
 
@@ -74,7 +75,7 @@ class WorkoutFragment : Fragment() {
         })
     }//pullDate function
 
-    private fun pullWorkoutArrayList(key: String, date: String){
+    private fun pullWorkoutArrayList(context: Context, inflater: LayoutInflater, key: String, date: String){
         val ref = FirebaseDatabase.getInstance().getReference("workout-page/$currentUser/$key/workoutExercises")
         val workoutExercisesArrayList = ArrayList<WorkoutExerciseObject>()
         ref.addChildEventListener(object: ChildEventListener{
@@ -101,10 +102,10 @@ class WorkoutFragment : Fragment() {
 
             }
         })
-        pullWarmupArrayList(key, date, workoutExercisesArrayList)
+        pullWarmupArrayList(context, inflater, key, date, workoutExercisesArrayList)
     }//pullWorkoutArrayList function
 
-    private fun pullWarmupArrayList(key: String, date: String, workoutExercisesArrayList: ArrayList<WorkoutExerciseObject>){
+    private fun pullWarmupArrayList(context: Context, inflater: LayoutInflater, key: String, date: String, workoutExercisesArrayList: ArrayList<WorkoutExerciseObject>){
         val ref = FirebaseDatabase.getInstance().getReference("workout-page/$currentUser/$key/warmupExercises")
         val warmupExercisesArrayList = ArrayList<WarmupExerciseObject>()
         ref.addChildEventListener(object: ChildEventListener{
@@ -131,17 +132,17 @@ class WorkoutFragment : Fragment() {
 
             }
         })
-        pullDailyMacronutrients(key, date, workoutExercisesArrayList, warmupExercisesArrayList)
+        pullDailyMacronutrients(context, inflater, key, date, workoutExercisesArrayList, warmupExercisesArrayList)
     }//pullWarmupArrayList function
 
-    private fun pullDailyMacronutrients(key: String, date: String, workoutExercisesArrayList: ArrayList<WorkoutExerciseObject>, warmupExercisesArrayList: ArrayList<WarmupExerciseObject>){
+    private fun pullDailyMacronutrients(context: Context, inflater: LayoutInflater, key: String, date: String, workoutExercisesArrayList: ArrayList<WorkoutExerciseObject>, warmupExercisesArrayList: ArrayList<WarmupExerciseObject>){
         val ref = FirebaseDatabase.getInstance().getReference("workout-page/$currentUser/$key").child("dailyMacronutrientsObject")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
                 val dailyMacronutrientsObject = p0.getValue(DailyMacronutrientsObject::class.java)
                 if(dailyMacronutrientsObject != null){
                     workoutPagesArrayList.add(WorkoutPageObject(key, date, workoutExercisesArrayList, warmupExercisesArrayList, dailyMacronutrientsObject))
-                    refreshRecyclerView()
+                    refreshRecyclerView(context, inflater)
                 }
             }
 
@@ -151,10 +152,10 @@ class WorkoutFragment : Fragment() {
         })
     }//pullDailyMacronutrients function
 
-    private fun refreshRecyclerView(){
+    private fun refreshRecyclerView(context: Context, inflater: LayoutInflater){
         adapter.clear()
         workoutPagesArrayList.forEach {
-            adapter.add(VerticalRecyclerViewObjectWorkout(it))
+            adapter.add(VerticalRecyclerViewObjectWorkout(context, inflater, it))
         }
     }//refreshRecyclerView function
 }
