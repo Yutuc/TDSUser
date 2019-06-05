@@ -81,12 +81,9 @@ class VerticalRecyclerViewCheckIn(val context: Context, val inflater: LayoutInfl
                 override fun onDataChange(p0: DataSnapshot) {
                     val uid = p0.getValue(String::class.java)
                     if(uid?.isEmpty()!!) {
-                        ref.parent?.setValue(AvailableTimeObject(itemClicked.availableTimeObject.position, itemClicked.availableTimeObject.key, itemClicked.availableTimeObject.time, currentUser!!))
+                        ref.parent?.setValue(ScheduledTimeObject(itemClicked.availableTimeObject.position, itemClicked.availableTimeObject.key, itemClicked.availableTimeObject.date, itemClicked.availableTimeObject.time, currentUser!!))
                         val userCheckInsRef = FirebaseDatabase.getInstance().getReference("/users/$currentUser/scheduledCheckIn")
-                        userCheckInsRef.setValue(ScheduledTimeObject(itemClicked.availableTimeObject.position, itemClicked.availableTimeObject.key, checkInPageObject.date, itemClicked.availableTimeObject.time, currentUser!!))
-
-                        val adminCheckInsRef = FirebaseDatabase.getInstance().getReference("admin-check-ins/$currentUser")
-                        adminCheckInsRef.setValue(AdminScheduledTimeObject(userName, checkInPageObject.date, itemClicked.availableTimeObject.time))
+                        userCheckInsRef.setValue(ScheduledTimeObject(itemClicked.availableTimeObject.position, itemClicked.availableTimeObject.key, itemClicked.availableTimeObject.date, itemClicked.availableTimeObject.time, currentUser!!))
 
                         Toast.makeText(context, "Scheduled for $dateClicked at $timeClicked", Toast.LENGTH_SHORT).show()
                     }
@@ -139,14 +136,12 @@ class VerticalRecyclerViewCheckIn(val context: Context, val inflater: LayoutInfl
                 override fun onDataChange(p0: DataSnapshot) {
                     val uid = p0.getValue(String::class.java)
                     if(uid?.isEmpty()!!) {
-                        ref.parent?.setValue(AvailableTimeObject(itemClicked.availableTimeObject.position, itemClicked.availableTimeObject.key, itemClicked.availableTimeObject.time, currentUser!!))
+                        ref.parent?.setValue(ScheduledTimeObject(itemClicked.availableTimeObject.position, itemClicked.availableTimeObject.key, itemClicked.availableTimeObject.date, itemClicked.availableTimeObject.time, currentUser!!))
                         val userCheckInsRef = FirebaseDatabase.getInstance().getReference("/users/$currentUser/scheduledCheckIn")
                         val previousCheckInsRef = FirebaseDatabase.getInstance().getReference("/check-in-page/${previousSchedObject.date}/${previousSchedObject.key}")
-                        val adminCheckInsRef = FirebaseDatabase.getInstance().getReference("/admin-check-ins/$currentUser")
 
-                        adminCheckInsRef.setValue(AdminScheduledTimeObject(userName, checkInPageObject.date, itemClicked.availableTimeObject.time))
                         userCheckInsRef.setValue(ScheduledTimeObject(itemClicked.availableTimeObject.position, itemClicked.availableTimeObject.key, checkInPageObject.date, itemClicked.availableTimeObject.time, currentUser!!))
-                        previousCheckInsRef.setValue(AvailableTimeObject(previousSchedObject.position, previousSchedObject.key, previousSchedObject.time, ""))
+                        previousCheckInsRef.setValue(ScheduledTimeObject(previousSchedObject.position, previousSchedObject.key, previousSchedObject.date, previousSchedObject.time, ""))
 
                         Toast.makeText(context, "Scheduled for $dateClicked at $timeClicked", Toast.LENGTH_SHORT).show()
                     }

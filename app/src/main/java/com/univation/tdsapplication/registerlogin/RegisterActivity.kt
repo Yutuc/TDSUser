@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.univation.tdsapplication.MainActivity
 import com.univation.tdsapplication.R
-import com.univation.tdsapplication.objects.AvailableTimeObject
 import com.univation.tdsapplication.objects.ScheduledTimeObject
 import com.univation.tdsapplication.objects.UserObject
 import kotlinx.android.synthetic.main.activity_register.*

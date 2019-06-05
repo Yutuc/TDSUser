@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.univation.tdsapplication.fragments.CheckInFragment
 import com.univation.tdsapplication.fragments.WorkoutFragment
-import com.univation.tdsapplication.objects.AvailableTimeObject
 import com.univation.tdsapplication.objects.ScheduledTimeObject
 import com.univation.tdsapplication.registerlogin.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -116,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     else{
                         val checkInPageRef = FirebaseDatabase.getInstance().getReference("/check-in-page/$date/${scheduledTimeObject?.key}")
-                        checkInPageRef.setValue(AvailableTimeObject(scheduledTimeObject?.position!!, scheduledTimeObject?.key!!, scheduledTimeObject?.time!!, ""))
+                        checkInPageRef.setValue(ScheduledTimeObject(scheduledTimeObject?.position!!, scheduledTimeObject?.key!!, scheduledTimeObject?.date!!, scheduledTimeObject?.time!!, ""))
                         ref.child("date").setValue("")
                         ref.child("key").setValue("")
                         ref.child("position").setValue(-1)

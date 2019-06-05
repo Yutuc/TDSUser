@@ -13,8 +13,8 @@ import com.google.firebase.database.FirebaseDatabase
 
 import com.univation.tdsapplication.R
 import com.univation.tdsapplication.checkin_adapters.VerticalRecyclerViewCheckIn
-import com.univation.tdsapplication.objects.AvailableTimeObject
 import com.univation.tdsapplication.objects.CheckInPageObject
+import com.univation.tdsapplication.objects.ScheduledTimeObject
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_check_in.view.*
@@ -58,10 +58,10 @@ class CheckInFragment : Fragment() {
 
     private fun pullTimes(context: Context, inflater: LayoutInflater, date: String){
         val ref = FirebaseDatabase.getInstance().getReference("check-in-page/$date")
-        val timesArrayList = ArrayList<AvailableTimeObject>()
+        val timesArrayList = ArrayList<ScheduledTimeObject>()
         ref.addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val time = p0.getValue(AvailableTimeObject::class.java)
+                val time = p0.getValue(ScheduledTimeObject::class.java)
                 timesArrayList.add(time!!)
                 refreshRecyclerView(context, inflater)
             }
@@ -71,7 +71,7 @@ class CheckInFragment : Fragment() {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                val time = p0.getValue(AvailableTimeObject::class.java)
+                val time = p0.getValue(ScheduledTimeObject::class.java)
                 timesArrayList.set(time?.position!!, time!!)
                 refreshRecyclerView(context, inflater)
             }
