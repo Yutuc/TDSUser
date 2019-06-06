@@ -2,10 +2,8 @@ package com.univation.tdsapplication.checkin_adapters
 
 import android.app.AlertDialog
 import android.content.Context
-import android.renderscript.Sampler
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -14,7 +12,6 @@ import com.univation.tdsapplication.objects.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.check_in_announcement_alert_dialog.view.*
 import kotlinx.android.synthetic.main.check_in_confirmation_alert_dialog.view.*
 import kotlinx.android.synthetic.main.check_in_reschedule_alert_dialog.view.*
 import kotlinx.android.synthetic.main.check_in_vertical_recyclerview.view.*
