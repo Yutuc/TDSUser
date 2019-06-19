@@ -9,7 +9,7 @@
             android:maxWidth="100dp"
             android:layout_width="100dp"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             android:id="@+id/exercise_name_textview_workout"
             android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"

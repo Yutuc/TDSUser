@@ -9,9 +9,4 @@
               app:showAsAction="never"/>
     </group>
 
-    <item android:id="@+id/announcement_top_nav_menu"
-          android:title="Scheduled Check-Ins"
-          android:icon="@drawable/ic_announcement_white"
-          app:showAsAction="ifRoom" ></item>
-
 </menu>
