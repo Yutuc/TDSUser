@@ -5,6 +5,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 
+//androidExtensions is added to make User object Parcelable
+androidExtensions {
+    experimental = true
+}
+
 android {
     compileSdkVersion 28
     defaultConfig {

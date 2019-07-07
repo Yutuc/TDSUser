@@ -11,7 +11,6 @@ class WarmupExerciseRow(val warmupExerciseObject: WarmupExerciseObject): Item<Vi
         viewHolder.itemView.exercise_name_textview_warmup.text = warmupExerciseObject.exerciseName
         viewHolder.itemView.sets_textview_warmup.text = warmupExerciseObject.sets
         viewHolder.itemView.reps_textview_warmup.text = warmupExerciseObject.reps
-        viewHolder.itemView.rpe_textview_warmup.text = warmupExerciseObject.rpe
     }
 
     override fun getLayout(): Int {

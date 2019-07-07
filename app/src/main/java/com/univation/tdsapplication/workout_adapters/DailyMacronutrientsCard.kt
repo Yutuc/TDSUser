@@ -7,14 +7,18 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.univation.tdsapplication.MainActivity
 import com.univation.tdsapplication.R
+import com.univation.tdsapplication.fragments.WorkoutFragment
 import com.univation.tdsapplication.objects.DailyMacronutrientsObject
+import com.univation.tdsapplication.workout_activities.ChooseWeekActivity
+import com.univation.tdsapplication.workout_activities.ViewWorkoutWeekActivity
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.workout_daily_macro_row.view.*
 import kotlinx.android.synthetic.main.workout_input_value_alert_dialog.view.*
 
-class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater, val key: String, val dailyMacronutrientsObject: DailyMacronutrientsObject): Item<ViewHolder>(){
+class DailyMacronutrientsCard(val key: String, val dailyMacronutrientsObject: DailyMacronutrientsObject): Item<ViewHolder>(){
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.protein_input_text.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         viewHolder.itemView.carbohydrates_input_text.paintFlags = Paint.UNDERLINE_TEXT_FLAG
@@ -58,8 +62,8 @@ class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater
         }
 
         viewHolder.itemView.protein_input_text.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(context)
-            val dialogView = inflater.inflate(R.layout.workout_input_value_alert_dialog, null)
+            val dialogBuilder = AlertDialog.Builder(ViewWorkoutWeekActivity.mContext)
+            val dialogView = ViewWorkoutWeekActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
             dialogView.input_type_title_input_value_alert_dialog.text = "Protein"
@@ -71,17 +75,17 @@ class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
                 val proteinInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
                 if(proteinInput.isEmpty()){
-                    Toast.makeText(context, "No value detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(ViewWorkoutWeekActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
                     val currentUser = FirebaseAuth.getInstance().uid
-                    val ref = FirebaseDatabase.getInstance().getReference("workout-page/$currentUser/$key/dailyMacronutrientsObject")
+                    val ref = FirebaseDatabase.getInstance().getReference("/workouts/$currentUser/${WorkoutFragment.blockClicked?.blockObject?.blockName}/${ChooseWeekActivity.weekClicked?.weekNumber}/$key/dailyMacronutrientsObject")
                     ref.child("protein").setValue(proteinInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.protein_input_text.text = proteinInput
                         }
                         .addOnFailureListener {
-                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(ViewWorkoutWeekActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     alertDialog.dismiss()
                 }
@@ -89,8 +93,8 @@ class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater
         }
 
         viewHolder.itemView.carbohydrates_input_text.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(context)
-            val dialogView = inflater.inflate(R.layout.workout_input_value_alert_dialog, null)
+            val dialogBuilder = AlertDialog.Builder(ViewWorkoutWeekActivity.mContext)
+            val dialogView = ViewWorkoutWeekActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
             dialogView.input_type_title_input_value_alert_dialog.text = "Carbohydrates"
@@ -102,17 +106,17 @@ class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
                 val carbohydratesInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
                 if(carbohydratesInput.isEmpty()){
-                    Toast.makeText(context, "No value detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(ViewWorkoutWeekActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
                     val currentUser = FirebaseAuth.getInstance().uid
-                    val ref = FirebaseDatabase.getInstance().getReference("workout-page/$currentUser/$key/dailyMacronutrientsObject")
+                    val ref = FirebaseDatabase.getInstance().getReference("/workouts/$currentUser/${WorkoutFragment.blockClicked?.blockObject?.blockName}/${ChooseWeekActivity.weekClicked?.weekNumber}/$key/dailyMacronutrientsObject")
                     ref.child("carbohydrates").setValue(carbohydratesInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.carbohydrates_input_text.text = carbohydratesInput
                         }
                         .addOnFailureListener {
-                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(ViewWorkoutWeekActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     alertDialog.dismiss()
                 }
@@ -120,8 +124,8 @@ class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater
         }
 
         viewHolder.itemView.fats_input_text.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(context)
-            val dialogView = inflater.inflate(R.layout.workout_input_value_alert_dialog, null)
+            val dialogBuilder = AlertDialog.Builder(ViewWorkoutWeekActivity.mContext)
+            val dialogView = ViewWorkoutWeekActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
             dialogView.input_type_title_input_value_alert_dialog.text = "Fats"
@@ -133,17 +137,17 @@ class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
                 val fatsInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
                 if(fatsInput.isEmpty()){
-                    Toast.makeText(context, "No value detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(ViewWorkoutWeekActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
                     val currentUser = FirebaseAuth.getInstance().uid
-                    val ref = FirebaseDatabase.getInstance().getReference("workout-page/$currentUser/$key/dailyMacronutrientsObject")
+                    val ref = FirebaseDatabase.getInstance().getReference("/workouts/$currentUser/${WorkoutFragment.blockClicked?.blockObject?.blockName}/${ChooseWeekActivity.weekClicked?.weekNumber}/$key/dailyMacronutrientsObject")
                     ref.child("fats").setValue(fatsInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.fats_input_text.text = fatsInput
                         }
                         .addOnFailureListener {
-                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(ViewWorkoutWeekActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     alertDialog.dismiss()
                 }
@@ -151,8 +155,8 @@ class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater
         }
 
         viewHolder.itemView.calories_input_text.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(context)
-            val dialogView = inflater.inflate(R.layout.workout_input_value_alert_dialog, null)
+            val dialogBuilder = AlertDialog.Builder(ViewWorkoutWeekActivity.mContext)
+            val dialogView = ViewWorkoutWeekActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
             dialogView.input_type_title_input_value_alert_dialog.text = "Calories"
@@ -164,17 +168,17 @@ class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
                 val caloriesInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
                 if(caloriesInput.isEmpty()){
-                    Toast.makeText(context, "No value detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(ViewWorkoutWeekActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
                     val currentUser = FirebaseAuth.getInstance().uid
-                    val ref = FirebaseDatabase.getInstance().getReference("workout-page/$currentUser/$key/dailyMacronutrientsObject")
+                    val ref = FirebaseDatabase.getInstance().getReference("/workouts/$currentUser/${WorkoutFragment.blockClicked?.blockObject?.blockName}/${ChooseWeekActivity.weekClicked?.weekNumber}/$key/dailyMacronutrientsObject")
                     ref.child("calories").setValue(caloriesInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.calories_input_text.text = caloriesInput
                         }
                         .addOnFailureListener {
-                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(ViewWorkoutWeekActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     alertDialog.dismiss()
                 }
@@ -182,8 +186,8 @@ class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater
         }
 
         viewHolder.itemView.weight_input_text.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(context)
-            val dialogView = inflater.inflate(R.layout.workout_input_value_alert_dialog, null)
+            val dialogBuilder = AlertDialog.Builder(ViewWorkoutWeekActivity.mContext)
+            val dialogView = ViewWorkoutWeekActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
             dialogView.input_type_title_input_value_alert_dialog.text = "Weight"
@@ -195,17 +199,17 @@ class DailyMacronutrientsCard(val context: Context, val inflater: LayoutInflater
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
                 val weightInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
                 if(weightInput.isEmpty()){
-                    Toast.makeText(context, "No value detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(ViewWorkoutWeekActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
                     val currentUser = FirebaseAuth.getInstance().uid
-                    val ref = FirebaseDatabase.getInstance().getReference("workout-page/$currentUser/$key/dailyMacronutrientsObject")
+                    val ref = FirebaseDatabase.getInstance().getReference("/workouts/$currentUser/${WorkoutFragment.blockClicked?.blockObject?.blockName}/${ChooseWeekActivity.weekClicked?.weekNumber}/$key/dailyMacronutrientsObject")
                     ref.child("weight").setValue(weightInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.weight_input_text.text = weightInput
                         }
                         .addOnFailureListener {
-                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(ViewWorkoutWeekActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     alertDialog.dismiss()
                 }

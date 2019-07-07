@@ -7,7 +7,6 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.univation.tdsapplication.fragments.CheckInFragment
 import com.univation.tdsapplication.fragments.WorkoutFragment
@@ -21,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         verifyUserIsLoggedIn()
         replaceFragment(WorkoutFragment()) //Initially starts the app in the WorkoutFragment
-        setTitle("Workout") //Initially sets ActionBar title to "Workout"
+        setTitle("Choose block") //Initially sets ActionBar title to "Workout"
         bottom_navigation_view_main.setOnNavigationItemSelectedListener(mBottomNavigationItemSelectedListener)
     }//onCreate function
 
@@ -30,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.workout_page -> {
                 replaceFragment(WorkoutFragment())
-                setTitle("Workout")
+                setTitle("Choose block")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.check_ins_page -> {
