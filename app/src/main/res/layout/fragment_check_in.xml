@@ -58,7 +58,7 @@
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:inputType="text"
                     android:ems="10"
                     app:layout_constraintTop_toBottomOf="@id/prompt_three_textview"
                     android:id="@+id/prompt_three_input" android:textAlignment="center"
@@ -76,7 +76,7 @@
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:inputType="text"
                     android:gravity="start|top"
                     android:ems="10"
                     app:layout_constraintTop_toBottomOf="@id/prompt_four_textview"
@@ -94,7 +94,7 @@
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:inputType="text"
                     android:gravity="start|top"
                     android:ems="10"
                     app:layout_constraintTop_toBottomOf="@id/prompt_five_textview"
@@ -112,7 +112,7 @@
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:inputType="text"
                     android:gravity="start|top"
                     app:layout_constraintTop_toBottomOf="@id/prompt_six_textview"
                     android:ems="10"
@@ -131,21 +131,15 @@
             <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
+                    android:inputType="text"
                     android:gravity="start|top"
                     android:ems="10"
                     app:layout_constraintTop_toBottomOf="@id/prompt_seven_textview"
                     android:id="@+id/prompt_seven_input" android:textAlignment="center"
                     android:hint="Type your answer here"
                     app:layout_constraintStart_toStartOf="@+id/prompt_six_input"
-                    app:layout_constraintEnd_toEndOf="@+id/prompt_six_input"/>
-            <Button
-                    android:text="Update"
-                    android:layout_width="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/prompt_seven_input"
-                    android:layout_height="wrap_content" android:id="@+id/update_button_checkin"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="8dp"/>
+                    app:layout_constraintEnd_toEndOf="@+id/prompt_six_input"
+                    app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"/>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

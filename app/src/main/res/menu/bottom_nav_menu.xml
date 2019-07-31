@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/user_profile_page"
+          android:title=""
+          android:icon="@drawable/ic_person" />
+
     <item android:id="@+id/workout_page"
           android:title=""
-          android:icon="@drawable/ic_fitness_black" />
+          android:icon="@drawable/ic_fitness" />
 
     <item android:id="@+id/check_ins_page"
           android:title=""
-          android:icon="@drawable/ic_check_ins_black" />
+          android:icon="@drawable/ic_check_ins"/>
 
     <!--<item android:id="@+id/shop_page"
           android:title=""
-          android:icon="@drawable/ic_shop_black" />
+          android:icon="@drawable/ic_shop" />
 
     <item android:id="@+id/info_page"
           android:title=""
-          android:icon="@drawable/ic_info_black" />-->
+          android:icon="@drawable/ic_info" />-->
 
 </menu>

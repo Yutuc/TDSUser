@@ -4,7 +4,7 @@
 
     <group
             android:checkableBehavior="none" android:id="@+id/group_top_nav_menu">
-        <item android:id="@+id/sign_out_top_nav_menu"
+        <item android:id="@+id/sign_out"
               android:title="Sign out"
               app:showAsAction="never"/>
     </group>

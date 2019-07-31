@@ -1,16 +1,16 @@
 package com.univation.tdsapplication.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 import com.univation.tdsapplication.R
 import com.univation.tdsapplication.objects.CheckInObject
+import com.univation.tdsapplication.registerlogin.LoginActivity
 import kotlinx.android.synthetic.main.fragment_check_in.*
 import kotlinx.android.synthetic.main.fragment_check_in.view.*
 import java.text.DateFormat
@@ -20,10 +20,32 @@ class CheckInFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_check_in, container, false)
-        view.update_button_checkin.setOnClickListener {
-            saveToFirebase()
-        }
         return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.check_in_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.save_check_in -> {
+               saveToFirebase()
+            }
+            R.id.sign_out -> {
+                FirebaseAuth.getInstance().signOut()
+                val intent = Intent(context, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun saveToFirebase(){
@@ -36,13 +58,13 @@ class CheckInFragment : Fragment() {
         val uid = FirebaseAuth.getInstance().uid.toString()
         val calendar = Calendar.getInstance()
         val date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.time)
-        val questionOne = prompt_one_input.text.toString()
-        val questionTwo = prompt_two_input.text.toString()
-        val questionThree = prompt_three_input.text.toString()
-        val questionFour = prompt_four_input.text.toString()
-        val questionFive = prompt_five_input.text.toString()
-        val questionSix = prompt_six_input.text.toString()
-        val questionSeven = prompt_seven_input.text.toString()
+        val questionOne = prompt_one_input.text.toString().trim()
+        val questionTwo = prompt_two_input.text.toString().trim()
+        val questionThree = prompt_three_input.text.toString().trim()
+        val questionFour = prompt_four_input.text.toString().trim()
+        val questionFive = prompt_five_input.text.toString().trim()
+        val questionSix = prompt_six_input.text.toString().trim()
+        val questionSeven = prompt_seven_input.text.toString().trim()
 
         val updatedCheckIn = CheckInObject(uid, date, questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven)
 
@@ -50,6 +72,13 @@ class CheckInFragment : Fragment() {
         ref.child("$uid").setValue(updatedCheckIn)
             .addOnSuccessListener {
                 Toast.makeText(context, "Successfully updated check-in", Toast.LENGTH_SHORT).show()
+                prompt_one_input.setText("")
+                prompt_two_input.setText("")
+                prompt_three_input.setText("")
+                prompt_four_input.setText("")
+                prompt_five_input.setText("")
+                prompt_six_input.setText("")
+                prompt_seven_input.setText("")
             }
     }//saveToFirebase function
 }

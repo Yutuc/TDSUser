@@ -15,7 +15,6 @@ import com.univation.tdsapplication.workout_adapters.WeekRow
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_choose_week.*
-import kotlinx.android.synthetic.main.fragment_workout.*
 
 class ChooseWeekActivity : AppCompatActivity() {
 
