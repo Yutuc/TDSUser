@@ -10,7 +10,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.univation.tdsapplication.R
-import com.univation.tdsapplication.fragments.WorkoutFragment
+import com.univation.tdsapplication.bottom_nav_fragments.WorkoutFragment
 import com.univation.tdsapplication.workout_adapters.WeekRow
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder

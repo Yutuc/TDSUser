@@ -6,7 +6,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.univation.tdsapplication.R
-import com.univation.tdsapplication.fragments.WorkoutFragment
+import com.univation.tdsapplication.bottom_nav_fragments.WorkoutFragment
 import com.univation.tdsapplication.objects.AccessoryExerciseObject
 import com.univation.tdsapplication.workout_activities.ChooseWeekActivity
 import com.univation.tdsapplication.workout_activities.ViewWorkoutWeekActivity

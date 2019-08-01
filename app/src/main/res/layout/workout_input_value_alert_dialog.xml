@@ -15,7 +15,7 @@
 	<EditText
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:inputType="number"
+			android:inputType="numberDecimal"
 			android:ems="10"
 			android:id="@+id/input_value_edittext_input_value_alert_dialog"
 			app:layout_constraintTop_toBottomOf="@+id/input_type_title_input_value_alert_dialog"

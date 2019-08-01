@@ -1,4 +1,4 @@
-package com.univation.tdsapplication.fragments
+package com.univation.tdsapplication.bottom_nav_fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.univation.tdsapplication.R
 import com.univation.tdsapplication.objects.BlockObject
-import com.univation.tdsapplication.registerlogin.LoginActivity
+import com.univation.tdsapplication.register_login.LoginActivity
 import com.univation.tdsapplication.workout_activities.ChooseWeekActivity
 import com.univation.tdsapplication.workout_adapters.BlockRow
 import com.xwray.groupie.GroupAdapter
@@ -35,8 +35,8 @@ class WorkoutFragment : Fragment() {
         view.recyclerview_choose_block.adapter = adapter
         view.recyclerview_choose_block.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         adapter.setOnItemClickListener { item, _ ->
-            val intent = Intent(context, ChooseWeekActivity::class.java)
             blockClicked = item as BlockRow
+            val intent = Intent(context, ChooseWeekActivity::class.java)
             startActivity(intent)
         }
 

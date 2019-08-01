@@ -1,15 +1,17 @@
 package com.univation.tdsapplication
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
+import android.view.LayoutInflater
 import com.google.firebase.auth.FirebaseAuth
-import com.univation.tdsapplication.fragments.CheckInFragment
-import com.univation.tdsapplication.fragments.UserProfileFragment
-import com.univation.tdsapplication.fragments.WorkoutFragment
-import com.univation.tdsapplication.registerlogin.LoginActivity
+import com.univation.tdsapplication.bottom_nav_fragments.CheckInFragment
+import com.univation.tdsapplication.bottom_nav_fragments.UserProfileFragment
+import com.univation.tdsapplication.bottom_nav_fragments.WorkoutFragment
+import com.univation.tdsapplication.register_login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_user_profile.*
 
@@ -17,6 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         var currentTab = 0
+        var mInflater: LayoutInflater? = null
+        var mContext: Context? = null
     }
 
     val workoutFragment = WorkoutFragment()
@@ -31,6 +35,9 @@ class MainActivity : AppCompatActivity() {
         setTitle("Choose block") //Initially sets ActionBar title to "Workout"
         bottom_navigation_view_main.setOnNavigationItemSelectedListener(mBottomNavigationItemSelectedListener)
         setSelectedTab()
+
+        mInflater = layoutInflater
+        mContext = this
     }//onCreate function
 
     //determines which item is selected in the bottom navigation view
@@ -94,15 +101,19 @@ class MainActivity : AppCompatActivity() {
                 fragmentTransaction.hide(checkInFragment)
             }
             1 -> {
-                val tab = tab_layout_user_profile.getTabAt(0)
-                tab!!.select()
+                if(tab_layout_user_profile != null){
+                    val tab = tab_layout_user_profile.getTabAt(0)
+                    tab?.select()
+                }
                 fragmentTransaction.show(workoutFragment)
                 fragmentTransaction.hide(checkInFragment)
                 fragmentTransaction.hide(userProfileFragment)
             }
             else -> {
-                val tab = tab_layout_user_profile.getTabAt(0)
-                tab!!.select()
+                if(tab_layout_user_profile != null){
+                    val tab = tab_layout_user_profile.getTabAt(0)
+                    tab?.select()
+                }
                 fragmentTransaction.show(checkInFragment)
                 fragmentTransaction.hide(workoutFragment)
                 fragmentTransaction.hide(userProfileFragment)

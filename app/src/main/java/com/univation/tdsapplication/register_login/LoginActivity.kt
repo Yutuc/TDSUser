@@ -1,4 +1,4 @@
-package com.univation.tdsapplication.registerlogin
+package com.univation.tdsapplication.register_login
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity

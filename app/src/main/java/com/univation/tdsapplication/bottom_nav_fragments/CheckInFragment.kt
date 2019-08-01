@@ -1,4 +1,4 @@
-package com.univation.tdsapplication.fragments
+package com.univation.tdsapplication.bottom_nav_fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,9 +10,8 @@ import com.google.firebase.database.FirebaseDatabase
 
 import com.univation.tdsapplication.R
 import com.univation.tdsapplication.objects.CheckInObject
-import com.univation.tdsapplication.registerlogin.LoginActivity
+import com.univation.tdsapplication.register_login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_check_in.*
-import kotlinx.android.synthetic.main.fragment_check_in.view.*
 import java.text.DateFormat
 import java.util.*
 

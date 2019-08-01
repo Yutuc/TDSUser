@@ -1,4 +1,4 @@
-package com.univation.tdsapplication.fragments
+package com.univation.tdsapplication.bottom_nav_fragments
 
 
 import android.os.Bundle

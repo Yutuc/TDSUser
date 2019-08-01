@@ -27,7 +27,7 @@
 				android:windowSoftInputMode="adjustPan">
 		</activity>
 		<activity
-				android:name=".registerlogin.LoginActivity"
+				android:name=".register_login.LoginActivity"
 				android:screenOrientation="portrait">
 		</activity>
 		<activity
@@ -41,7 +41,7 @@
 			</intent-filter>
 		</activity>
 		<activity
-				android:name=".registerlogin.RegisterActivity"
+				android:name=".register_login.RegisterActivity"
 				android:screenOrientation="portrait">
 		</activity>
 	</application>

@@ -10,7 +10,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.univation.tdsapplication.R
-import com.univation.tdsapplication.fragments.WorkoutFragment
+import com.univation.tdsapplication.bottom_nav_fragments.WorkoutFragment
 import com.univation.tdsapplication.objects.WorkoutDayObject
 import com.univation.tdsapplication.workout_adapters.WorkoutDayRow
 import com.xwray.groupie.GroupAdapter
@@ -59,7 +59,7 @@ class ViewWorkoutWeekActivity : AppCompatActivity() {
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val workoutDayObject = p0.getValue(WorkoutDayObject::class.java)!!
                 workoutDayArraylist.add(workoutDayObject)
-                refreshRecyclerView(p0.key!!)
+                refreshRecyclerView()
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
@@ -69,7 +69,7 @@ class ViewWorkoutWeekActivity : AppCompatActivity() {
         })
     }//pullWorkoutDays function
 
-    private fun refreshRecyclerView(key: String){
+    private fun refreshRecyclerView(){
         adapter.clear()
         workoutDayArraylist.forEach {
             adapter.add(WorkoutDayRow(it))
