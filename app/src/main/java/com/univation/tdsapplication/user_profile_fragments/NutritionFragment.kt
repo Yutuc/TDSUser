@@ -9,11 +9,33 @@ import com.google.firebase.auth.FirebaseAuth
 
 import com.univation.tdsapplication.R
 import com.univation.tdsapplication.register_login.LoginActivity
+import com.univation.tdsapplication.user_profile_adapters.FoodChoicesColumn
+import com.univation.tdsapplication.user_profile_adapters.MacrosPerMealCard
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.fragment_nutrition.view.*
 
 class NutritionFragment : Fragment() {
 
+
+    val PROTEIN_TITLE = "PROTEIN_TITLE"
+    val CARBOHYDRATES_TITLE = "CARBOHYDRATES_TITLE"
+    val FAT_TITLE = "FAT_TITLE"
+    val VEGETABLES_TITLE = "VEGETABLES_TITLE"
+
+    val foodChoicesAdapter = GroupAdapter<ViewHolder>()
+    val macrosPerMealAdapter = GroupAdapter<ViewHolder>()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_nutrition, container, false)
+        view.recyclerview_food_choices.adapter = foodChoicesAdapter
+        foodChoicesAdapter.add(FoodChoicesColumn(PROTEIN_TITLE))
+        foodChoicesAdapter.add(FoodChoicesColumn(CARBOHYDRATES_TITLE))
+        foodChoicesAdapter.add(FoodChoicesColumn(FAT_TITLE))
+        foodChoicesAdapter.add(FoodChoicesColumn(VEGETABLES_TITLE))
+
+        view.recyclerview_macros_per_meal.adapter = macrosPerMealAdapter
+        macrosPerMealAdapter.add(MacrosPerMealCard())
         return view
     }
 

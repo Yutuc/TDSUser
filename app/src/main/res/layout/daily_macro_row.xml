@@ -50,13 +50,13 @@
                     app:layout_constraintTop_toBottomOf="@id/daily_macro_title"
                     app:layout_constraintStart_toEndOf="@+id/protein_title_textview"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintEnd_toStartOf="@+id/fats_title_textview"
+                    app:layout_constraintEnd_toStartOf="@+id/fat_title_textview"
                     android:layout_marginTop="8dp"/>
             <TextView
-                    android:text="Fats"
+                    android:text="Fat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/fats_title_textview"
+                    android:id="@+id/fat_title_textview"
                     app:layout_constraintTop_toBottomOf="@id/daily_macro_title"
                     app:layout_constraintStart_toEndOf="@+id/carbohydrates_title_textview"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/calories_title_textview"
                     app:layout_constraintTop_toBottomOf="@id/daily_macro_title"
-                    app:layout_constraintStart_toEndOf="@+id/fats_title_textview"
+                    app:layout_constraintStart_toEndOf="@+id/fat_title_textview"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintEnd_toStartOf="@+id/weight_title_textview"
                     android:layout_marginTop="8dp"/>
@@ -96,10 +96,10 @@
                     android:text="grams"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/fats_input_text"
-                    app:layout_constraintTop_toBottomOf="@+id/fats_title_textview"
-                    app:layout_constraintStart_toStartOf="@+id/fats_title_textview"
-                    app:layout_constraintEnd_toEndOf="@+id/fats_title_textview" android:layout_marginBottom="8dp"
+                    android:id="@+id/fat_input_text"
+                    app:layout_constraintTop_toBottomOf="@+id/fat_title_textview"
+                    app:layout_constraintStart_toStartOf="@+id/fat_title_textview"
+                    app:layout_constraintEnd_toEndOf="@+id/fat_title_textview" android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
                     android:textStyle="bold" android:textAlignment="center"/>
             <TextView

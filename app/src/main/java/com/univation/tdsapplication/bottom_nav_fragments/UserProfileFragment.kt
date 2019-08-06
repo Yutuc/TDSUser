@@ -55,7 +55,7 @@ class UserProfileFragment : Fragment() {
                 view?.goal_weight_textview_user_profile?.text = "Goal weight: ${userGoalObject.goalWeight}Lbs"
                 view?.protein_textview_user_profile?.text = "Protein: ${userGoalObject.protein}g"
                 view?.carbohydrates_textview_user_profile?.text = "Carbs: ${userGoalObject.carbohydrates}g"
-                view?.fats_textview_user_profile?.text = "Fats: ${userGoalObject.fats}g"
+                view?.fat_textview_user_profile?.text = "Fats: ${userGoalObject.fat}g"
                 view?.calories_textview_user_profile?.text = "Calories: ${userGoalObject.calories}"
             }
 

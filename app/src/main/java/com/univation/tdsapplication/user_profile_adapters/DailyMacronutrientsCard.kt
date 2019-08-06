@@ -20,7 +20,7 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
 
         viewHolder.itemView.protein_input_text.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         viewHolder.itemView.carbohydrates_input_text.paintFlags = Paint.UNDERLINE_TEXT_FLAG
-        viewHolder.itemView.fats_input_text.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        viewHolder.itemView.fat_input_text.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         viewHolder.itemView.calories_input_text.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         viewHolder.itemView.weight_input_text.paintFlags = Paint.UNDERLINE_TEXT_FLAG
 
@@ -38,11 +38,11 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
             viewHolder.itemView.carbohydrates_input_text.text = dailyMacronutrientsObject.carbohydrates
         }
 
-        if(dailyMacronutrientsObject.fats.isEmpty()){
-            viewHolder.itemView.fats_input_text.text = "grams"
+        if(dailyMacronutrientsObject.fat.isEmpty()){
+            viewHolder.itemView.fat_input_text.text = "grams"
         }
         else{
-            viewHolder.itemView.fats_input_text.text = dailyMacronutrientsObject.fats
+            viewHolder.itemView.fat_input_text.text = dailyMacronutrientsObject.fat
         }
 
         if(dailyMacronutrientsObject.calories.isEmpty()){
@@ -119,27 +119,27 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
             }
         }
 
-        viewHolder.itemView.fats_input_text.setOnClickListener {
+        viewHolder.itemView.fat_input_text.setOnClickListener {
             val dialogBuilder = AlertDialog.Builder(MainActivity.mContext)
             val dialogView = MainActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
-            dialogView.input_type_title_input_value_alert_dialog.text = "Fats"
+            dialogView.input_type_title_input_value_alert_dialog.text = "fat"
             dialogView.input_value_edittext_input_value_alert_dialog.setHint("grams")
 
             val alertDialog = dialogBuilder.create()
             alertDialog.show()
 
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
-                val fatsInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
-                if(fatsInput.isEmpty()){
+                val fatInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
+                if(fatInput.isEmpty()){
                     Toast.makeText(MainActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
                     val ref = FirebaseDatabase.getInstance().getReference("/user-daily-macro-history/${FirebaseAuth.getInstance().uid}/${dailyMacronutrientsObject.key}")
-                    ref.child("fats").setValue(fatsInput)
+                    ref.child("fat").setValue(fatInput)
                         .addOnSuccessListener {
-                            viewHolder.itemView.fats_input_text.text = fatsInput
+                            viewHolder.itemView.fat_input_text.text = fatInput
                         }
                         .addOnFailureListener {
                             Toast.makeText(MainActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()

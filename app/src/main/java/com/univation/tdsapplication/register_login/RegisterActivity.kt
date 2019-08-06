@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.univation.tdsapplication.MainActivity
 import com.univation.tdsapplication.R
+import com.univation.tdsapplication.objects.FoodChoicesObject
 import com.univation.tdsapplication.objects.UserObject
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -61,10 +62,12 @@ class RegisterActivity : AppCompatActivity() {
 
         ref.setValue(user)
             .addOnSuccessListener {
-            Toast.makeText(this, "Successful registration", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK) //clears the stack of activities
-            startActivity(intent)
+                val ref = FirebaseDatabase.getInstance().getReference("/user-nutrition/$uid")
+                ref.setValue(FoodChoicesObject("", "", "", ""))
+                Toast.makeText(this, "Successful registration", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK) //clears the stack of activities
+                startActivity(intent)
             }
             .addOnFailureListener {
                 Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
