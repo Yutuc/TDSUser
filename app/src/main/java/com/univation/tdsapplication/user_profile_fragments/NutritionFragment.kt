@@ -6,36 +6,44 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 
 import com.univation.tdsapplication.R
 import com.univation.tdsapplication.register_login.LoginActivity
-import com.univation.tdsapplication.user_profile_adapters.FoodChoicesColumn
-import com.univation.tdsapplication.user_profile_adapters.MacrosPerMealCard
+import com.univation.tdsapplication.user_profile_adapters.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_nutrition.view.*
 
 class NutritionFragment : Fragment() {
 
-
-    val PROTEIN_TITLE = "PROTEIN_TITLE"
-    val CARBOHYDRATES_TITLE = "CARBOHYDRATES_TITLE"
-    val FAT_TITLE = "FAT_TITLE"
-    val VEGETABLES_TITLE = "VEGETABLES_TITLE"
-
+    val foodChoicesMap = HashMap<String, String>()
     val foodChoicesAdapter = GroupAdapter<ViewHolder>()
     val macrosPerMealAdapter = GroupAdapter<ViewHolder>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_nutrition, container, false)
         view.recyclerview_food_choices.adapter = foodChoicesAdapter
-        foodChoicesAdapter.add(FoodChoicesColumn(PROTEIN_TITLE))
-        foodChoicesAdapter.add(FoodChoicesColumn(CARBOHYDRATES_TITLE))
-        foodChoicesAdapter.add(FoodChoicesColumn(FAT_TITLE))
-        foodChoicesAdapter.add(FoodChoicesColumn(VEGETABLES_TITLE))
+        pullFoodChoices()
 
         view.recyclerview_macros_per_meal.adapter = macrosPerMealAdapter
-        macrosPerMealAdapter.add(MacrosPerMealCard())
+        macrosPerMealAdapter.add(MacrosPerMealTitlesRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+        macrosPerMealAdapter.add(MacrosPerMealRow())
+
         return view
     }
 
@@ -60,5 +68,45 @@ class NutritionFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun pullFoodChoices(){
+        val ref = FirebaseDatabase.getInstance().getReference("/user-nutrition/${FirebaseAuth.getInstance().uid}")
+        ref.addChildEventListener(object: ChildEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                val foodChoicesPulled = p0.getValue(String::class.java)!!
+                foodChoicesMap.set(p0.key!!, foodChoicesPulled)
+                refreshRecyclerView()
+            }
+
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                val foodChoicesPulled = p0.getValue(String::class.java)!!
+                foodChoicesMap[p0.key!!] = foodChoicesPulled
+                if(foodChoicesMap.size == 4){
+                    refreshRecyclerView()
+                }
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+
+            }
+
+        })
+    }//pullFoodChoices function
+
+    private fun refreshRecyclerView(){
+        foodChoicesAdapter.clear()
+        foodChoicesAdapter.add(ProteinChoicesColumn(foodChoicesMap.get("protein")!!))
+        foodChoicesAdapter.add(CarbohydrateChoicesColumn(foodChoicesMap.get("carbohydrates")!!))
+        foodChoicesAdapter.add(FatChoicesColumn(foodChoicesMap.get("fat")!!))
+        foodChoicesAdapter.add(VegetableChoicesColumn(foodChoicesMap.get("vegetables")!!))
+    }//refreshRecyclerView function
 
 }
