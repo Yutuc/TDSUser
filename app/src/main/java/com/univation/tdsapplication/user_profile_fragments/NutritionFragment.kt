@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 
 import com.univation.tdsapplication.R
+import com.univation.tdsapplication.objects.MealObject
 import com.univation.tdsapplication.register_login.LoginActivity
 import com.univation.tdsapplication.user_profile_adapters.*
 import com.xwray.groupie.GroupAdapter
@@ -22,27 +23,17 @@ class NutritionFragment : Fragment() {
 
     val foodChoicesMap = HashMap<String, String>()
     val foodChoicesAdapter = GroupAdapter<ViewHolder>()
-    val macrosPerMealAdapter = GroupAdapter<ViewHolder>()
+    val mealsAdapter = GroupAdapter<ViewHolder>()
+    val mealArrayList = ArrayList<MealObject>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_nutrition, container, false)
         view.recyclerview_food_choices.adapter = foodChoicesAdapter
         pullFoodChoices()
 
-        view.recyclerview_macros_per_meal.adapter = macrosPerMealAdapter
-        macrosPerMealAdapter.add(MacrosPerMealTitlesRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
-        macrosPerMealAdapter.add(MacrosPerMealRow())
+        view.recyclerview_macros_per_meal.adapter = mealsAdapter
+        mealsAdapter.add(MacrosPerMealTitlesRow())
+        pullMeals()
 
         return view
     }
@@ -83,14 +74,14 @@ class NutritionFragment : Fragment() {
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
                 val foodChoicesPulled = p0.getValue(String::class.java)!!
                 foodChoicesMap.set(p0.key!!, foodChoicesPulled)
-                refreshRecyclerView()
+                refreshFoodChoicesRecyclerView()
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val foodChoicesPulled = p0.getValue(String::class.java)!!
                 foodChoicesMap[p0.key!!] = foodChoicesPulled
                 if(foodChoicesMap.size == 4){
-                    refreshRecyclerView()
+                    refreshFoodChoicesRecyclerView()
                 }
             }
 
@@ -101,12 +92,48 @@ class NutritionFragment : Fragment() {
         })
     }//pullFoodChoices function
 
-    private fun refreshRecyclerView(){
+    private fun pullMeals(){
+        val ref = FirebaseDatabase.getInstance().getReference("/user-meals/${FirebaseAuth.getInstance().uid}")
+        ref.addChildEventListener(object: ChildEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+
+            }
+
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                val mealObject = p0.getValue(MealObject::class.java)!!
+                mealArrayList.add(mealObject)
+                refreshMealsRecyclerView()
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+
+            }
+
+        })
+    }//pullMeals function
+
+    private fun refreshFoodChoicesRecyclerView(){
         foodChoicesAdapter.clear()
         foodChoicesAdapter.add(ProteinChoicesColumn(foodChoicesMap.get("protein")!!))
         foodChoicesAdapter.add(CarbohydrateChoicesColumn(foodChoicesMap.get("carbohydrates")!!))
         foodChoicesAdapter.add(FatChoicesColumn(foodChoicesMap.get("fat")!!))
         foodChoicesAdapter.add(VegetableChoicesColumn(foodChoicesMap.get("vegetables")!!))
     }//refreshRecyclerView function
+
+    private fun refreshMealsRecyclerView(){
+        mealsAdapter.clear()
+        mealsAdapter.add(MacrosPerMealTitlesRow())
+        mealArrayList.forEach {
+            mealsAdapter.add(MealRow(it))
+        }
+    }//refreshMealsRecyclerView function
 
 }
