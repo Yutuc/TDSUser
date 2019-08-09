@@ -49,14 +49,17 @@ class UserProfileFragment : Fragment() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                val userGoalObject = p0.getValue(UserGoalsObject::class.java)!!
-                view?.athlete_name_textview_user_profile?.text = userGoalObject.userName
-                view?.start_weight_textview_user_profile?.text = "Start weight: ${userGoalObject.startWeight}Lbs"
-                view?.goal_weight_textview_user_profile?.text = "Goal weight: ${userGoalObject.goalWeight}Lbs"
-                view?.protein_textview_user_profile?.text = "Protein: ${userGoalObject.protein}g"
-                view?.carbohydrates_textview_user_profile?.text = "Carbs: ${userGoalObject.carbohydrates}g"
-                view?.fat_textview_user_profile?.text = "Fats: ${userGoalObject.fat}g"
-                view?.calories_textview_user_profile?.text = "Calories: ${userGoalObject.calories}"
+                try{
+                    val userGoalObject = p0.getValue(UserGoalsObject::class.java)!!
+                    view?.athlete_name_textview_user_profile?.text = userGoalObject.userName
+                    view?.start_weight_textview_user_profile?.text = "Start weight: ${userGoalObject.startWeight}Lbs"
+                    view?.goal_weight_textview_user_profile?.text = "Goal weight: ${userGoalObject.goalWeight}Lbs"
+                    view?.protein_textview_user_profile?.text = "Protein: ${userGoalObject.protein}g"
+                    view?.carbohydrates_textview_user_profile?.text = "Carbs: ${userGoalObject.carbohydrates}g"
+                    view?.fat_textview_user_profile?.text = "Fats: ${userGoalObject.fat}g"
+                    view?.calories_textview_user_profile?.text = "Calories: ${userGoalObject.calories}"
+                }
+                catch(e: Exception){}
             }
 
         })
