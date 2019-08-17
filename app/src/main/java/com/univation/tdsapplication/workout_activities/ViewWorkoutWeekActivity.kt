@@ -38,6 +38,7 @@ class ViewWorkoutWeekActivity : AppCompatActivity() {
         mContext = this
 
         horizontal_recyclerview_workout_week.adapter = adapter
+
         pullWorkoutDays()
     }
 
@@ -53,7 +54,9 @@ class ViewWorkoutWeekActivity : AppCompatActivity() {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-
+                val workoutDayObject = p0.getValue(WorkoutDayObject::class.java)!!
+                workoutDayArraylist.set(workoutDayObject.position, workoutDayObject)
+                refreshRecyclerView()
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {

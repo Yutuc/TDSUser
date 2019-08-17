@@ -15,7 +15,7 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.main_exercise_row.view.*
 import kotlinx.android.synthetic.main.workout_input_value_alert_dialog.view.*
 
-class MainExerciseRow(val key: String, val mainExerciseObject : MainExerciseObject): Item<ViewHolder>(){
+class MainExerciseRow(val key: String, val completed: Boolean, val mainExerciseObject : MainExerciseObject): Item<ViewHolder>(){
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.exercise_name_textview_workout.text = mainExerciseObject.exerciseName
         viewHolder.itemView.sets_textview_workout.text = mainExerciseObject.sets
@@ -32,27 +32,29 @@ class MainExerciseRow(val key: String, val mainExerciseObject : MainExerciseObje
         viewHolder.itemView.weight_input_workout.paintFlags = Paint.UNDERLINE_TEXT_FLAG
 
         viewHolder.itemView.weight_input_workout.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(ViewWorkoutWeekActivity.mContext)
-            val dialogView = ViewWorkoutWeekActivity.mInflater?.inflate(R.layout.workout_input_value_alert_dialog, null)!!
+            if(!completed){
+                val dialogBuilder = AlertDialog.Builder(ViewWorkoutWeekActivity.mContext)
+                val dialogView = ViewWorkoutWeekActivity.mInflater?.inflate(R.layout.workout_input_value_alert_dialog, null)!!
 
-            dialogBuilder.setView(dialogView)
-            dialogView.input_type_title_input_value_alert_dialog.text = "Weight"
-            dialogView.input_value_edittext_input_value_alert_dialog.setHint("lbs")
+                dialogBuilder.setView(dialogView)
+                dialogView.input_type_title_input_value_alert_dialog.text = "Weight"
+                dialogView.input_value_edittext_input_value_alert_dialog.setHint("lbs")
 
-            val alertDialog = dialogBuilder.create()
-            alertDialog.show()
+                val alertDialog = dialogBuilder.create()
+                alertDialog.show()
 
-            dialogView.save_button_input_value_alert_dialog.setOnClickListener {
-                val weightInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
-                if(weightInput.isEmpty()) {
-                    Toast.makeText(ViewWorkoutWeekActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
-                }
-                else{
-                    val currentUser = FirebaseAuth.getInstance().uid
-                    val ref = FirebaseDatabase.getInstance().getReference("/workouts/${currentUser}/${WorkoutFragment.blockClicked?.blockObject?.blockName}/${ChooseWeekActivity.weekClicked?.weekNumber}/$key/mainArrayList/${mainExerciseObject.position}")
-                    ref.child("weight").setValue(weightInput)
-                    viewHolder.itemView.weight_input_workout.text = weightInput
-                    alertDialog.dismiss()
+                dialogView.save_button_input_value_alert_dialog.setOnClickListener {
+                    val weightInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
+                    if(weightInput.isEmpty()) {
+                        Toast.makeText(ViewWorkoutWeekActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        val currentUser = FirebaseAuth.getInstance().uid
+                        val ref = FirebaseDatabase.getInstance().getReference("/workouts/${currentUser}/${WorkoutFragment.blockClicked?.blockObject?.blockName}/${ChooseWeekActivity.weekClicked?.weekNumber}/$key/mainArrayList/${mainExerciseObject.position}")
+                        ref.child("weight").setValue(weightInput)
+                        viewHolder.itemView.weight_input_workout.text = weightInput
+                        alertDialog.dismiss()
+                    }
                 }
             }
         }

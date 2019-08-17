@@ -7,12 +7,12 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.core_card.view.*
 
-class CoreCard(val key: String, val coreArrayList: ArrayList<CoreExerciseObject>) : Item<ViewHolder>(){
+class CoreCard(val key: String, val completed: Boolean, val coreArrayList: ArrayList<CoreExerciseObject>) : Item<ViewHolder>(){
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val coreCardAdapter = GroupAdapter<ViewHolder>()
         coreCardAdapter.add(CoreTitlesRow())
         coreArrayList.forEach {
-            coreCardAdapter.add(CoreExerciseRow(key, it))
+            coreCardAdapter.add(CoreExerciseRow(key, completed, it))
         }
         viewHolder.itemView.core_card_recyclerview.adapter = coreCardAdapter
     }

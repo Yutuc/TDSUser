@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"  android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
@@ -12,5 +13,12 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             android:id="@+id/vertical_recyclerview_workout"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/completed_workout_switch"/>
+    <Switch
+            android:text="Completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/completed_workout_switch" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:checked="false"/>
 </android.support.constraint.ConstraintLayout>
