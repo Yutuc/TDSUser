@@ -42,7 +42,7 @@ class ViewWorkoutWeekActivity : AppCompatActivity() {
         pullWorkoutDays()
     }
 
-    private fun pullWorkoutDays(){
+    private fun pullWorkoutDays() {
         val ref = FirebaseDatabase.getInstance().getReference("/workouts/$currentUser/${WorkoutFragment.blockClicked?.blockObject?.blockName}/${ChooseWeekActivity.weekClicked?.weekNumber}")
         ref.addChildEventListener(object : ChildEventListener{
             override fun onCancelled(p0: DatabaseError) {

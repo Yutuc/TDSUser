@@ -13,6 +13,7 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.vertical_recyclerview_workout.*
 import kotlinx.android.synthetic.main.vertical_recyclerview_workout.view.*
 import kotlinx.android.synthetic.main.vertical_recyclerview_workout.view.completed_workout_switch
+import java.lang.Exception
 
 class WorkoutDayRow(val workoutDayObject : WorkoutDayObject): Item<ViewHolder>(){
 
@@ -24,7 +25,11 @@ class WorkoutDayRow(val workoutDayObject : WorkoutDayObject): Item<ViewHolder>()
         verticalAdapter.add(MainCard(workoutDayObject.key, workoutDayObject.completed, workoutDayObject.mainArrayList!!))
         verticalAdapter.add(AccessoryCard(workoutDayObject.key, workoutDayObject.completed, workoutDayObject.accessoryArrayList!!))
         verticalAdapter.add(CoreCard(workoutDayObject.key, workoutDayObject.completed, workoutDayObject.coreArrayList!!))
-        verticalAdapter.add(ConditioningCard(workoutDayObject.key, workoutDayObject.conditioningArrayList!!))
+
+        try{
+            verticalAdapter.add(ConditioningCard(workoutDayObject.key, workoutDayObject.conditioningArrayList!!))
+        }
+        catch (e: Exception){}
         viewHolder.itemView.vertical_recyclerview_workout.adapter = verticalAdapter
 
         viewHolder.itemView.completed_workout_switch.setOnCheckedChangeListener { buttonView, isChecked ->
