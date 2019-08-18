@@ -21,6 +21,9 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_daily_macro.*
 import kotlinx.android.synthetic.main.fragment_daily_macro.view.*
 import java.text.DateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 class DailyMacroFragment : Fragment() {
@@ -48,11 +51,12 @@ class DailyMacroFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
             R.id.add_daily_macro -> {
-                val calendar = Calendar.getInstance()
-                val date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.time)
+                val timeStamp = LocalDateTime.now()
+                val timeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                val dateAndTime = timeStamp.format(timeFormatter)
 
                 val ref = FirebaseDatabase.getInstance().getReference("/user-daily-macro-history/${FirebaseAuth.getInstance().uid}").push()
-                ref.setValue(DailyMacronutrientsObject(ref.key!!, date, "", "", "", "", ""))
+                ref.setValue(DailyMacronutrientsObject(ref.key!!, dateAndTime, "", "", "", "", ""))
             }
             R.id.sign_out -> {
                 FirebaseAuth.getInstance().signOut()
