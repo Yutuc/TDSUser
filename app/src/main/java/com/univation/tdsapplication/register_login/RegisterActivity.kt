@@ -67,8 +67,8 @@ class RegisterActivity : AppCompatActivity() {
                 val userGoalsRef = FirebaseDatabase.getInstance().getReference("/user-goals/$uid")
                 userGoalsRef.setValue(userGoalsObject)
 
-                val userNutritionRef = FirebaseDatabase.getInstance().getReference("/user-nutrition/$uid")
-                userNutritionRef.setValue(FoodChoicesObject("TBD", "TBD", "TBD", "TBD"))
+                /*val userNutritionRef = FirebaseDatabase.getInstance().getReference("/user-nutrition/$uid")
+                userNutritionRef.setValue(FoodChoicesObject("TBD", "TBD", "TBD", "TBD"))*/
                 Toast.makeText(this, "Successful registration", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK) //clears the stack of activities
