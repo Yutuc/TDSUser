@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.fragment_nutrition.view.*
 
 class NutritionFragment : Fragment() {
 
-    val foodChoicesMap = HashMap<String, String>()
     val foodChoicesAdapter = GroupAdapter<ViewHolder>()
     val mealsAdapter = GroupAdapter<ViewHolder>()
     val mealArrayList = ArrayList<MealObject>()
@@ -29,7 +28,9 @@ class NutritionFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_nutrition, container, false)
         view.recyclerview_food_choices.adapter = foodChoicesAdapter
-        pullFoodChoices()
+        foodChoicesAdapter.add(ProteinChoicesColumn())
+        foodChoicesAdapter.add(CarbohydrateChoicesColumn())
+        foodChoicesAdapter.add(FatChoicesColumn())
 
         view.recyclerview_macros_per_meal.adapter = mealsAdapter
         mealsAdapter.add(MacrosPerMealTitlesRow())
@@ -60,38 +61,6 @@ class NutritionFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun pullFoodChoices(){
-        val ref = FirebaseDatabase.getInstance().getReference("/user-nutrition/${FirebaseAuth.getInstance().uid}")
-        ref.addChildEventListener(object: ChildEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-
-            }
-
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                val foodChoicesPulled = p0.getValue(String::class.java)!!
-                foodChoicesMap.set(p0.key!!, foodChoicesPulled)
-                refreshFoodChoicesRecyclerView()
-            }
-
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val foodChoicesPulled = p0.getValue(String::class.java)!!
-                foodChoicesMap[p0.key!!] = foodChoicesPulled
-                if(foodChoicesMap.size == 4){
-                    refreshFoodChoicesRecyclerView()
-                }
-            }
-
-            override fun onChildRemoved(p0: DataSnapshot) {
-
-            }
-
-        })
-    }//pullFoodChoices function
-
     private fun pullMeals(){
         val ref = FirebaseDatabase.getInstance().getReference("/user-meals/${FirebaseAuth.getInstance().uid}")
         ref.addChildEventListener(object: ChildEventListener{
@@ -119,14 +88,6 @@ class NutritionFragment : Fragment() {
 
         })
     }//pullMeals function
-
-    private fun refreshFoodChoicesRecyclerView(){
-        foodChoicesAdapter.clear()
-        foodChoicesAdapter.add(ProteinChoicesColumn(foodChoicesMap.get("protein")!!))
-        foodChoicesAdapter.add(CarbohydrateChoicesColumn(foodChoicesMap.get("carbohydrates")!!))
-        foodChoicesAdapter.add(FatChoicesColumn(foodChoicesMap.get("fat")!!))
-        foodChoicesAdapter.add(VegetableChoicesColumn(foodChoicesMap.get("vegetables")!!))
-    }//refreshRecyclerView function
 
     private fun refreshMealsRecyclerView(){
         mealsAdapter.clear()
