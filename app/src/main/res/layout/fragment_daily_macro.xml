@@ -15,5 +15,5 @@
 			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent" android:id="@+id/recyclerview_daily_macro"/>
+			app:layout_constraintEnd_toEndOf="parent" android:id="@+id/recyclerview_daily_macro_blocks"/>
 </android.support.constraint.ConstraintLayout>

@@ -9,14 +9,21 @@
 			android:roundIcon="@mipmap/ic_launcher_round"
 			android:supportsRtl="true"
 			android:theme="@style/AppTheme">
-		<activity android:name=".workout_activities.ViewWorkoutWeekActivity"
-		android:screenOrientation="portrait">
+		<activity android:name=".user_profile_fragments.ViewDailyMacroBlockActivity">
+			<meta-data
+					android:name="android.support.PARENT_ACTIVITY"
+					android:value=".MainActivity"/>
+		</activity>
+		<activity
+				android:name=".workout_activities.ViewWorkoutWeekActivity"
+				android:screenOrientation="portrait">
 			<meta-data
 					android:name="android.support.PARENT_ACTIVITY"
 					android:value=".workout_activities.ChooseWeekActivity"/>
 		</activity>
-		<activity android:name=".workout_activities.ChooseWeekActivity"
-		android:screenOrientation="portrait">
+		<activity
+				android:name=".workout_activities.ChooseWeekActivity"
+				android:screenOrientation="portrait">
 			<meta-data
 					android:name="android.support.PARENT_ACTIVITY"
 					android:value=".MainActivity"/>

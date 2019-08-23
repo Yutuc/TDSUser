@@ -1,9 +1,11 @@
 package com.univation.tdsapplication.user_profile_fragments
 
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.view.*
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -13,28 +15,37 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 
 import com.univation.tdsapplication.R
-import com.univation.tdsapplication.objects.DailyMacronutrientsObject
+import com.univation.tdsapplication.objects.BlockObject
 import com.univation.tdsapplication.register_login.LoginActivity
-import com.univation.tdsapplication.user_profile_adapters.DailyMacronutrientsCard
+import com.univation.tdsapplication.workout_adapters.BlockRow
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.fragment_daily_macro.*
+import kotlinx.android.synthetic.main.add_block_alert_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_daily_macro.view.*
-import java.text.DateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.*
 
 class DailyMacroFragment : Fragment() {
 
-    val dailyMacroNutrientsHistoryArrayList = ArrayList<DailyMacronutrientsObject>()
+    companion object {
+        var blockClicked: BlockObject? = null
+    }
+
+    val dailyMacroNutrientsBlocksHistoryArrayList = ArrayList<BlockObject>()
     val adapter = GroupAdapter<ViewHolder>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_daily_macro, container, false)
-        view.recyclerview_daily_macro.adapter = adapter
-        pullDailyMacroHistory()
+        view.recyclerview_daily_macro_blocks.adapter = adapter
+        view.recyclerview_daily_macro_blocks.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+        adapter.setOnItemClickListener { item, _ ->
+            val blockRow = item as BlockRow
+            blockClicked = blockRow.blockObject
+            val intent = Intent(context, ViewDailyMacroBlockActivity::class.java)
+            startActivity(intent)
+        }
+
+        pullDailyMacroBlocks()
         return view
     }
 
@@ -44,19 +55,40 @@ class DailyMacroFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.daily_macro_menu, menu)
+        inflater?.inflate(R.menu.daily_macro_fragment_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
-            R.id.add_daily_macro -> {
-                val timeStamp = LocalDateTime.now()
+            R.id.add_daily_macro_block -> {
+                /*val timeStamp = LocalDateTime.now()
                 val timeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
                 val dateAndTime = timeStamp.format(timeFormatter)
 
                 val ref = FirebaseDatabase.getInstance().getReference("/user-daily-macro-history/${FirebaseAuth.getInstance().uid}").push()
-                ref.setValue(DailyMacronutrientsObject(ref.key!!, dateAndTime, "", "", "", "", ""))
+                ref.setValue(DailyMacronutrientsObject(ref.key!!, dateAndTime, "", "", "", "", ""))*/
+
+                val dialogBuilder = AlertDialog.Builder(context)
+                val dialogView = layoutInflater.inflate(R.layout.add_block_alert_dialog, null)
+
+                dialogBuilder.setView(dialogView)
+
+                val alertDialog = dialogBuilder.create()
+                alertDialog.show()
+
+                dialogView.add_block_button_add_block_alert_dialog.setOnClickListener {
+                    val blockName = dialogView.block_name_input_add_block_alert_dialog.text.toString().trim()
+                    if(blockName.isEmpty()){
+                        Toast.makeText(context, "Please enter a block name", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/$blockName")
+                        ref.setValue(BlockObject(blockName, 0))
+                        Toast.makeText(context, "Successfully created $blockName", Toast.LENGTH_SHORT).show()
+                        alertDialog.dismiss()
+                    }
+                }
             }
             R.id.sign_out -> {
                 FirebaseAuth.getInstance().signOut()
@@ -68,8 +100,8 @@ class DailyMacroFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun pullDailyMacroHistory(){
-        val ref = FirebaseDatabase.getInstance().getReference("/user-daily-macro-history/${FirebaseAuth.getInstance().uid}")
+    private fun pullDailyMacroBlocks(){
+        val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}")
         ref.addChildEventListener(object: ChildEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
@@ -84,8 +116,8 @@ class DailyMacroFragment : Fragment() {
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val dailyMacronutrientsObject = p0.getValue(DailyMacronutrientsObject::class.java)!!
-                dailyMacroNutrientsHistoryArrayList.add(dailyMacronutrientsObject)
+                val blockObject = p0.getValue(BlockObject::class.java)!!
+                dailyMacroNutrientsBlocksHistoryArrayList.add(blockObject)
                 refreshRecyclerView()
             }
 
@@ -98,8 +130,8 @@ class DailyMacroFragment : Fragment() {
 
     private fun refreshRecyclerView(){
         adapter.clear()
-        dailyMacroNutrientsHistoryArrayList.forEach {
-            adapter.add(DailyMacronutrientsCard(it))
+        dailyMacroNutrientsBlocksHistoryArrayList.forEach {
+            adapter.add(BlockRow(it))
         }
     }//refreshRecyclerView function
 }

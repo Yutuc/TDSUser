@@ -2,6 +2,7 @@ package com.univation.tdsapplication.bottom_nav_fragments
 
 
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,10 @@ import kotlinx.android.synthetic.main.fragment_user_profile.view.tab_layout_user
 
 class UserProfileFragment : Fragment() {
 
+    companion object {
+        var tabSelected = 0
+    }
+
     val tabIconsArrayList = arrayOf(
         R.drawable.ic_nutrition,
         R.drawable.ic_daily_macros
@@ -32,6 +37,21 @@ class UserProfileFragment : Fragment() {
         view.view_pager_user_profile.adapter = fragmentAdapter
         view.view_pager_user_profile.offscreenPageLimit = fragmentAdapter.count
         view.tab_layout_user_profile.setupWithViewPager(view.view_pager_user_profile)
+        view.tab_layout_user_profile.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(p0: TabLayout.Tab?) {
+                tabSelected = p0!!.position
+            }
+
+        })
+
         for (x in 0 until tabIconsArrayList.size){
             view.tab_layout_user_profile.getTabAt(x)?.setIcon(tabIconsArrayList.get(x))
         }
@@ -64,4 +84,10 @@ class UserProfileFragment : Fragment() {
 
         })
     }//pullUserGoals function
+
+    override fun onResume() {
+        val tabSelected = view!!.tab_layout_user_profile.getTabAt(tabSelected)
+        tabSelected!!.select()
+        super.onResume()
+    }
 }
