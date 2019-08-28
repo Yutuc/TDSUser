@@ -18,24 +18,16 @@ import kotlinx.android.synthetic.main.fragment_user_profile.*
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        var currentTab = 0
         var mInflater: LayoutInflater? = null
         var mContext: Context? = null
     }
-
-    val workoutFragment = WorkoutFragment()
-    val checkInFragment = CheckInFragment()
-    val userProfileFragment = UserProfileFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         verifyUserIsLoggedIn()
-        initializeFragments()
-        setTitle("Choose block") //Initially sets ActionBar title to "Workout"
         bottom_navigation_view_main.setOnNavigationItemSelectedListener(mBottomNavigationItemSelectedListener)
-        setSelectedTab()
-
+        replaceFragment(UserProfileFragment())
         mInflater = layoutInflater
         mContext = this
     }//onCreate function
@@ -44,97 +36,23 @@ class MainActivity : AppCompatActivity() {
     val mBottomNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.user_profile_page -> {
-                changeFragment(0)
-                //replaceFragment(UserProfileFragment())
+                replaceFragment(UserProfileFragment())
                 setTitle("User profile")
-                currentTab = 0
                 return@OnNavigationItemSelectedListener true
             }
             R.id.workout_page -> {
-                changeFragment(1)
-                //replaceFragment(WorkoutFragment())
+                replaceFragment(WorkoutFragment())
                 setTitle("Choose block")
-                currentTab = 1
                 return@OnNavigationItemSelectedListener true
             }
             R.id.check_ins_page -> {
-                changeFragment(2)
-                //replaceFragment(CheckInFragment())
+                replaceFragment(CheckInFragment())
                 setTitle("Check-in")
-                currentTab = 2
                 return@OnNavigationItemSelectedListener true
             }
-            /*R.id.shop_page -> {
-                replaceFragment(ShopFragment())
-                setTitle("Shop")
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.info_page -> {
-                replaceFragment(InfoFragment())
-                setTitle("Info")
-                return@OnNavigationItemSelectedListener true
-            }*/
         }
         false
     }
-
-    private fun initializeFragments(){
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-
-        fragmentTransaction.add(R.id.fragmentContainer, workoutFragment)
-        fragmentTransaction.add(R.id.fragmentContainer, checkInFragment)
-        fragmentTransaction.add(R.id.fragmentContainer, userProfileFragment)
-
-        fragmentTransaction.hide(workoutFragment)
-        fragmentTransaction.hide(checkInFragment)
-        //don't hide userProfileFragment because it's the initial fragment shown
-
-        fragmentTransaction.commit()
-    }//initializeFragments function
-
-    private fun changeFragment(position: Int){
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        when(position) {
-            0 -> {
-                fragmentTransaction.show(userProfileFragment)
-                fragmentTransaction.hide(workoutFragment)
-                fragmentTransaction.hide(checkInFragment)
-            }
-            1 -> {
-                if(tab_layout_user_profile != null){
-                    val tab = tab_layout_user_profile.getTabAt(0)
-                    tab?.select()
-                }
-                fragmentTransaction.show(workoutFragment)
-                fragmentTransaction.hide(checkInFragment)
-                fragmentTransaction.hide(userProfileFragment)
-            }
-            else -> {
-                if(tab_layout_user_profile != null){
-                    val tab = tab_layout_user_profile.getTabAt(0)
-                    tab?.select()
-                }
-                fragmentTransaction.show(checkInFragment)
-                fragmentTransaction.hide(workoutFragment)
-                fragmentTransaction.hide(userProfileFragment)
-            }
-        }
-        fragmentTransaction.commit()
-    }//changeFragment function
-
-    private fun setSelectedTab(){
-        when(currentTab){
-            0 -> {
-                bottom_navigation_view_main.selectedItemId = R.id.user_profile_page
-            }
-            1-> {
-                bottom_navigation_view_main.selectedItemId = R.id.workout_page
-            }
-            else -> {
-                bottom_navigation_view_main.selectedItemId = R.id.check_ins_page
-            }
-        }
-    }//setSelectedTab function
 
     //replaces fragment on screen depending on which bottom nav menu item is selected
     private fun replaceFragment(fragment: Fragment){

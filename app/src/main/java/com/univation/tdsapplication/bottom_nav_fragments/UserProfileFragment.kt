@@ -33,7 +33,7 @@ class UserProfileFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_user_profile, container, false)
 
-        val fragmentAdapter = ViewPagerAdapter(fragmentManager)
+        val fragmentAdapter = ViewPagerAdapter(childFragmentManager)
         view.view_pager_user_profile.adapter = fragmentAdapter
         view.view_pager_user_profile.offscreenPageLimit = fragmentAdapter.count
         view.tab_layout_user_profile.setupWithViewPager(view.view_pager_user_profile)
