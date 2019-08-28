@@ -13,7 +13,6 @@ import com.univation.tdsapplication.bottom_nav_fragments.UserProfileFragment
 import com.univation.tdsapplication.bottom_nav_fragments.WorkoutFragment
 import com.univation.tdsapplication.register_login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_user_profile.*
 
 class MainActivity : AppCompatActivity() {
 
