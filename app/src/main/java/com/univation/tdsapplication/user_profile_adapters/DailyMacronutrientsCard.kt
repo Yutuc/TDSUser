@@ -80,7 +80,7 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
                     Toast.makeText(ViewDailyMacroBlockActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.blockName}/${dailyMacronutrientsObject.key}")
+                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}/${dailyMacronutrientsObject.key}")
                     ref.child("protein").setValue(proteinInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.protein_input_text.text = proteinInput
@@ -110,7 +110,7 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
                     Toast.makeText(ViewDailyMacroBlockActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.blockName}/${dailyMacronutrientsObject.key}")
+                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}/${dailyMacronutrientsObject.key}")
                     ref.child("carbohydrates").setValue(carbohydratesInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.carbohydrates_input_text.text = carbohydratesInput
@@ -140,7 +140,7 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
                     Toast.makeText(ViewDailyMacroBlockActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.blockName}/${dailyMacronutrientsObject.key}")
+                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}/${dailyMacronutrientsObject.key}")
                     ref.child("fat").setValue(fatInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.fat_input_text.text = fatInput
@@ -170,7 +170,7 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
                     Toast.makeText(ViewDailyMacroBlockActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.blockName}/${dailyMacronutrientsObject.key}")
+                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}/${dailyMacronutrientsObject.key}")
                     ref.child("calories").setValue(caloriesInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.calories_input_text.text = caloriesInput
@@ -200,7 +200,7 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
                     Toast.makeText(ViewDailyMacroBlockActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.blockName}/${dailyMacronutrientsObject.key}")
+                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}/${dailyMacronutrientsObject.key}")
                     ref.child("weight").setValue(weightInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.weight_input_text.text = weightInput

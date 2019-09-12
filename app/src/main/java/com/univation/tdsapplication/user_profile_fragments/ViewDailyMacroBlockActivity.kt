@@ -61,7 +61,7 @@ class ViewDailyMacroBlockActivity : AppCompatActivity() {
                 val timeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
                 val dateAndTime = timeStamp.format(timeFormatter)
 
-                val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.blockName}").push()
+                val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}").push()
                 ref.setValue(DailyMacronutrientsObject(ref.key!!, dateAndTime, "", "", "", "", ""))
             }
         }
@@ -69,7 +69,7 @@ class ViewDailyMacroBlockActivity : AppCompatActivity() {
     }
 
     private fun pullDailyMacros(){
-        val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.blockName}")
+        val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}")
         ref.addChildEventListener(object: ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
 

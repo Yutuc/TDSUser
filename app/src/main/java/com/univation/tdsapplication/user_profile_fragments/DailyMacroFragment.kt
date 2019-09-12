@@ -13,8 +13,11 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.univation.tdsapplication.MainActivity
 
 import com.univation.tdsapplication.R
+import com.univation.tdsapplication.bottom_nav_fragments.UserProfileFragment
+import com.univation.tdsapplication.bottom_nav_fragments.WorkoutFragment
 import com.univation.tdsapplication.objects.BlockObject
 import com.univation.tdsapplication.register_login.LoginActivity
 import com.univation.tdsapplication.workout_adapters.BlockRow
@@ -39,6 +42,8 @@ class DailyMacroFragment : Fragment() {
         view.recyclerview_daily_macro_blocks.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         adapter.setOnItemClickListener { item, _ ->
+            MainActivity.currentFragment = UserProfileFragment()
+            MainActivity.currentFragmentPosition = R.id.user_profile_page
             val blockRow = item as BlockRow
             blockClicked = blockRow.blockObject
             val intent = Intent(context, ViewDailyMacroBlockActivity::class.java)
@@ -83,8 +88,8 @@ class DailyMacroFragment : Fragment() {
                         Toast.makeText(context, "Please enter a block name", Toast.LENGTH_SHORT).show()
                     }
                     else {
-                        val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/$blockName")
-                        ref.setValue(BlockObject(blockName, 0))
+                        val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}").push()
+                        ref.setValue(BlockObject(ref.key!!, blockName, 0))
                         Toast.makeText(context, "Successfully created $blockName", Toast.LENGTH_SHORT).show()
                         alertDialog.dismiss()
                     }

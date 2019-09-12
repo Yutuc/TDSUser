@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var mInflater: LayoutInflater? = null
         var mContext: Context? = null
+        var currentFragment: Fragment? = UserProfileFragment()
+        var currentFragmentPosition: Int = 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         verifyUserIsLoggedIn()
         bottom_navigation_view_main.setOnNavigationItemSelectedListener(mBottomNavigationItemSelectedListener)
-        replaceFragment(UserProfileFragment())
+        replaceFragment(currentFragment!!)
         mInflater = layoutInflater
         mContext = this
     }//onCreate function
@@ -68,4 +70,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }//verifyUserIsLoggedIn function
+
+    override fun onResume() {
+        replaceFragment(currentFragment!!)
+        bottom_navigation_view_main.selectedItemId = currentFragmentPosition
+        super.onResume()
+    }
+
 }

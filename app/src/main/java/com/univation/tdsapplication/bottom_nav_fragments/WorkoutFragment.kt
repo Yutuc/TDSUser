@@ -10,6 +10,7 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.univation.tdsapplication.MainActivity
 import com.univation.tdsapplication.R
 import com.univation.tdsapplication.objects.BlockObject
 import com.univation.tdsapplication.register_login.LoginActivity
@@ -35,6 +36,8 @@ class WorkoutFragment : Fragment() {
         view.recyclerview_choose_block.adapter = adapter
         view.recyclerview_choose_block.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         adapter.setOnItemClickListener { item, _ ->
+            MainActivity.currentFragment = WorkoutFragment()
+            MainActivity.currentFragmentPosition = R.id.workout_page
             blockClicked = item as BlockRow
             val intent = Intent(context, ChooseWeekActivity::class.java)
             startActivity(intent)
