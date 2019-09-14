@@ -49,7 +49,7 @@ class WorkoutDayRow(val workoutDayObject : WorkoutDayObject): Item<ViewHolder>()
         viewHolder.itemView.vertical_recyclerview_workout.adapter = verticalAdapter
 
         viewHolder.itemView.completed_workout_switch.setOnCheckedChangeListener { buttonView, isChecked ->
-            val ref = FirebaseDatabase.getInstance().getReference("/workouts/$currentUser/${WorkoutFragment.blockClicked!!.blockObject.blockName}/${ChooseWeekActivity.weekClicked!!.weekNumber}/${workoutDayObject.key}").child("completed")
+            val ref = FirebaseDatabase.getInstance().getReference("/workouts/$currentUser/${WorkoutFragment.blockClicked!!.blockObject.key}/${ChooseWeekActivity.weekClicked!!.weekNumber}/${workoutDayObject.key}").child("completed")
             if(isChecked){
                 ref.setValue(true)
             }
