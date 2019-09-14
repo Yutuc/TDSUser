@@ -5,18 +5,15 @@ import android.graphics.Paint
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.univation.tdsapplication.MainActivity
 import com.univation.tdsapplication.R
 import com.univation.tdsapplication.objects.DailyMacronutrientsObject
-import com.univation.tdsapplication.user_profile_fragments.DailyMacroFragment
-import com.univation.tdsapplication.user_profile_fragments.ViewDailyMacroBlockActivity
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.daily_macro_row.view.*
 import kotlinx.android.synthetic.main.workout_input_value_alert_dialog.view.*
 
 class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrientsObject): Item<ViewHolder>(){
-
-    val blockClicked = DailyMacroFragment.blockClicked
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
@@ -64,8 +61,8 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
         }
 
         viewHolder.itemView.protein_input_text.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(ViewDailyMacroBlockActivity.mContext)
-            val dialogView = ViewDailyMacroBlockActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
+            val dialogBuilder = AlertDialog.Builder(MainActivity.mContext)
+            val dialogView = MainActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
             dialogView.input_type_title_input_value_alert_dialog.text = "Protein"
@@ -77,16 +74,16 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
                 val proteinInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
                 if(proteinInput.isEmpty()){
-                    Toast.makeText(ViewDailyMacroBlockActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MainActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}/${dailyMacronutrientsObject.key}")
+                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${dailyMacronutrientsObject.key}")
                     ref.child("protein").setValue(proteinInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.protein_input_text.text = proteinInput
                         }
                         .addOnFailureListener {
-                            Toast.makeText(ViewDailyMacroBlockActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(MainActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     alertDialog.dismiss()
                 }
@@ -94,8 +91,8 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
         }
 
         viewHolder.itemView.carbohydrates_input_text.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(ViewDailyMacroBlockActivity.mContext)
-            val dialogView = ViewDailyMacroBlockActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
+            val dialogBuilder = AlertDialog.Builder(MainActivity.mContext)
+            val dialogView = MainActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
             dialogView.input_type_title_input_value_alert_dialog.text = "Carbohydrates"
@@ -107,16 +104,16 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
                 val carbohydratesInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
                 if(carbohydratesInput.isEmpty()){
-                    Toast.makeText(ViewDailyMacroBlockActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MainActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}/${dailyMacronutrientsObject.key}")
+                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${dailyMacronutrientsObject.key}")
                     ref.child("carbohydrates").setValue(carbohydratesInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.carbohydrates_input_text.text = carbohydratesInput
                         }
                         .addOnFailureListener {
-                            Toast.makeText(ViewDailyMacroBlockActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(MainActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     alertDialog.dismiss()
                 }
@@ -124,8 +121,8 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
         }
 
         viewHolder.itemView.fat_input_text.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(ViewDailyMacroBlockActivity.mContext)
-            val dialogView = ViewDailyMacroBlockActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
+            val dialogBuilder = AlertDialog.Builder(MainActivity.mContext)
+            val dialogView = MainActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
             dialogView.input_type_title_input_value_alert_dialog.text = "fat"
@@ -137,16 +134,16 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
                 val fatInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
                 if(fatInput.isEmpty()){
-                    Toast.makeText(ViewDailyMacroBlockActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MainActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}/${dailyMacronutrientsObject.key}")
+                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${dailyMacronutrientsObject.key}")
                     ref.child("fat").setValue(fatInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.fat_input_text.text = fatInput
                         }
                         .addOnFailureListener {
-                            Toast.makeText(ViewDailyMacroBlockActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(MainActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     alertDialog.dismiss()
                 }
@@ -154,8 +151,8 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
         }
 
         viewHolder.itemView.calories_input_text.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(ViewDailyMacroBlockActivity.mContext)
-            val dialogView = ViewDailyMacroBlockActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
+            val dialogBuilder = AlertDialog.Builder(MainActivity.mContext)
+            val dialogView = MainActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
             dialogView.input_type_title_input_value_alert_dialog.text = "Calories"
@@ -167,16 +164,16 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
                 val caloriesInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
                 if(caloriesInput.isEmpty()){
-                    Toast.makeText(ViewDailyMacroBlockActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MainActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}/${dailyMacronutrientsObject.key}")
+                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${dailyMacronutrientsObject.key}")
                     ref.child("calories").setValue(caloriesInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.calories_input_text.text = caloriesInput
                         }
                         .addOnFailureListener {
-                            Toast.makeText(ViewDailyMacroBlockActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(MainActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     alertDialog.dismiss()
                 }
@@ -184,8 +181,8 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
         }
 
         viewHolder.itemView.weight_input_text.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(ViewDailyMacroBlockActivity.mContext)
-            val dialogView = ViewDailyMacroBlockActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
+            val dialogBuilder = AlertDialog.Builder(MainActivity.mContext)
+            val dialogView = MainActivity.mInflater!!.inflate(R.layout.workout_input_value_alert_dialog, null)
 
             dialogBuilder.setView(dialogView)
             dialogView.input_type_title_input_value_alert_dialog.text = "Weight"
@@ -197,16 +194,16 @@ class DailyMacronutrientsCard(val dailyMacronutrientsObject: DailyMacronutrients
             dialogView.save_button_input_value_alert_dialog.setOnClickListener {
                 val weightInput = dialogView.input_value_edittext_input_value_alert_dialog.text.toString()
                 if(weightInput.isEmpty()){
-                    Toast.makeText(ViewDailyMacroBlockActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MainActivity.mContext, "No value detected", Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${blockClicked!!.key}/${dailyMacronutrientsObject.key}")
+                    val ref = FirebaseDatabase.getInstance().getReference("/daily-macros/${FirebaseAuth.getInstance().uid}/${dailyMacronutrientsObject.key}")
                     ref.child("weight").setValue(weightInput)
                         .addOnSuccessListener {
                             viewHolder.itemView.weight_input_text.text = weightInput
                         }
                         .addOnFailureListener {
-                            Toast.makeText(ViewDailyMacroBlockActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(MainActivity.mContext, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     alertDialog.dismiss()
                 }
