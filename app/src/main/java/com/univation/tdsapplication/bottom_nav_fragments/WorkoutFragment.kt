@@ -36,8 +36,6 @@ class WorkoutFragment : Fragment() {
         view.recyclerview_choose_block.adapter = adapter
         view.recyclerview_choose_block.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         adapter.setOnItemClickListener { item, _ ->
-            MainActivity.currentFragment = WorkoutFragment()
-            MainActivity.currentFragmentPosition = R.id.workout_page
             blockClicked = item as BlockRow
             val intent = Intent(context, ChooseWeekActivity::class.java)
             startActivity(intent)

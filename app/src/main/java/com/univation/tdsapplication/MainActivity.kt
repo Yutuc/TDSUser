@@ -39,16 +39,22 @@ class MainActivity : AppCompatActivity() {
             R.id.user_profile_page -> {
                 replaceFragment(UserProfileFragment())
                 setTitle("User profile")
+                currentFragment = UserProfileFragment()
+                currentFragmentPosition = R.id.user_profile_page
                 return@OnNavigationItemSelectedListener true
             }
             R.id.workout_page -> {
                 replaceFragment(WorkoutFragment())
                 setTitle("Choose block")
+                currentFragment = WorkoutFragment()
+                currentFragmentPosition = R.id.workout_page
                 return@OnNavigationItemSelectedListener true
             }
             R.id.check_ins_page -> {
                 replaceFragment(CheckInFragment())
                 setTitle("Check-in")
+                currentFragment = CheckInFragment()
+                currentFragmentPosition = R.id.check_ins_page
                 return@OnNavigationItemSelectedListener true
             }
         }
