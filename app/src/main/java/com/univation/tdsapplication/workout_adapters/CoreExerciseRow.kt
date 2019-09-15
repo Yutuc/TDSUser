@@ -47,7 +47,7 @@ class CoreExerciseRow (val key: String, val completed: Boolean, val coreExercise
                     }
                     else{
                         val currentUser = FirebaseAuth.getInstance().uid
-                        val ref = FirebaseDatabase.getInstance().getReference("/workouts/${currentUser}/${WorkoutFragment.blockClicked?.blockObject?.blockName}/${ChooseWeekActivity.weekClicked?.weekNumber}/$key/coreArrayList/${coreExerciseObject.position}")
+                        val ref = FirebaseDatabase.getInstance().getReference("/workouts/${currentUser}/${WorkoutFragment.blockClicked?.blockObject?.key}/${ChooseWeekActivity.weekClicked?.weekNumber}/$key/coreArrayList/${coreExerciseObject.position}")
                         ref.child("weight").setValue(weightInput)
                         viewHolder.itemView.weight_input_core.text = weightInput
                         alertDialog.dismiss()

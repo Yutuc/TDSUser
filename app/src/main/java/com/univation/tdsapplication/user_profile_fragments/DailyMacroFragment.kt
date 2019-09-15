@@ -5,23 +5,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 
 import com.univation.tdsapplication.R
-import com.univation.tdsapplication.bottom_nav_fragments.UserProfileFragment
-import com.univation.tdsapplication.objects.DailyMacronutrientsAveragesObject
 import com.univation.tdsapplication.objects.DailyMacronutrientsObject
 import com.univation.tdsapplication.register_login.LoginActivity
 import com.univation.tdsapplication.user_profile_adapters.DailyMacronutrientsCard
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_daily_macro.view.*
-import java.lang.Exception
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -30,7 +27,6 @@ import java.util.*
 class DailyMacroFragment : Fragment() {
 
     val dailyMacronutrientsArrayList = ArrayList<DailyMacronutrientsObject>()
-
     val adapter = GroupAdapter<ViewHolder>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -83,19 +79,15 @@ class DailyMacroFragment : Fragment() {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                try {
-                    val dailyMacronutrientsObject = p0.getValue(DailyMacronutrientsObject::class.java)!!
-                    dailyMacronutrientsArrayList[find(dailyMacronutrientsObject)] = dailyMacronutrientsObject
-                    refreshRecyclerView()
-                }catch (e: Exception){}
+                val dailyMacronutrientsObject = p0.getValue(DailyMacronutrientsObject::class.java)!!
+                dailyMacronutrientsArrayList[find(dailyMacronutrientsObject)] = dailyMacronutrientsObject
+                refreshRecyclerView()
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                try {
-                    val dailyMacronutrientsObject = p0.getValue(DailyMacronutrientsObject::class.java)!!
-                    dailyMacronutrientsArrayList.add(dailyMacronutrientsObject)
-                    refreshRecyclerView()
-                }catch (e: Exception){}
+                val dailyMacronutrientsObject = p0.getValue(DailyMacronutrientsObject::class.java)!!
+                dailyMacronutrientsArrayList.add(dailyMacronutrientsObject)
+                refreshRecyclerView()
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
@@ -107,14 +99,14 @@ class DailyMacroFragment : Fragment() {
 
     private fun refreshRecyclerView(){
         adapter.clear()
-        dailyMacronutrientsArrayList.forEach {
-            adapter.add(DailyMacronutrientsCard(it))
+        for (i in dailyMacronutrientsArrayList.size-1 downTo 0 step 1) {
+            adapter.add(DailyMacronutrientsCard(dailyMacronutrientsArrayList[i]))
         }
     }//refreshRecyclerView function
 
     private fun find(dailyMacronutrientsObject: DailyMacronutrientsObject) : Int {
         for (i in dailyMacronutrientsArrayList.size-1 downTo 0 step 1) {
-            if(dailyMacronutrientsArrayList.get(i).key == dailyMacronutrientsObject.key){
+            if(dailyMacronutrientsArrayList[i].key == dailyMacronutrientsObject.key){
                 return i
             }
         }
